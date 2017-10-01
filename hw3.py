@@ -68,12 +68,16 @@ def matrix_transpose(A):
 #             -100
 #
 def max_2d_array(grid):
-    max = grid[0][0]
+    maximum = grid[0][0]
+
+
 
     for row in grid:
         for e in row:
-            if e > max:
-                max = e
+            if e > maximum:
+                print(e)
+                maximum = e
+    return maximum
 
 
 
@@ -157,11 +161,63 @@ def binary_search(arr, target):
 #
 def search_2d_array(arr, target):
 
-    for i in range(len(arr)):
-        for j in range(len(arr[0])):
-            if arr[i][j] == target:
-                return (i, j)
-    return None
+    beg = 0
+    end = len(arr) - 1
+    mid = (beg + end) // 2
+
+    row = 0
+
+    if arr[0][0] > target: #the smallest element is bigger than the target
+        return None
+
+
+    while True: #find row
+
+        if arr[mid][0] <= target and target < arr[mid + 1][0]:
+            row = mid
+            break
+        elif target < arr[mid][0]: #we need to go smaller
+            end = mid
+        elif mid + 1 == end: #two elements left
+            row = end
+            break
+        else: #when the target is > arr[mid]
+            beg = mid
+
+        mid = (beg + end) // 2
+
+    #print("done with beginning")
+
+    col = 0
+    beg = 0
+    end = len(arr[col]) - 1
+    mid = (beg + end) // 2
+
+    row_entries = arr[row]
+    while True: #find col
+        if row_entries[mid] == target:
+            return [row, mid]
+        if row_entries[mid] <= target and target < row_entries[mid + 1]:
+            return None
+
+        elif target < row_entries[mid]: #we need to go smaller
+            end = mid
+        elif mid + 1 == end: #two elements
+            if row_entries[end] == target:
+                return [row, end]
+            else:
+                return None
+        else: #when the target is > row_entries[mid]
+            beg = mid
+
+        mid = (beg + end) // 2
+
+
+
+
+
+
+
 
 
 
@@ -189,12 +245,41 @@ def search_2d_array(arr, target):
 #
 def max_sum_subarray(arr):
 
-    
+    all_negative = True
+    new_arr = [arr[0]]
+    prev = arr[0]
+    for e in arr[1:]:
+        #print(prev, e)
+        if e > 0:
+            all_negative = False
+        if (e < 0) == (prev < 0): #they have the same sign
+            new_arr[-1] += e  #add to it
+            #print("sames ignl")
+        else:
+            new_arr.append(e)
+        prev = e
 
 
+    if all_negative:
+        return max(arr)
+    #I guess i should just brute force from now?
 
-# Maximum Sum Sub-Rectangle
-#
+    #print(new_arr)
+
+    max_val = new_arr[0]
+
+    for length in range(1, len(new_arr) + 1): #because don't want zero length
+        for start_index in range(len(new_arr) - length + 1):
+            sum_vals = sum(new_arr[start_index: start_index + length])
+            if sum_vals > max_val:
+                max_val = sum_vals
+
+    return max_val
+
+    #print(new_arr)
+
+
+# Maximum Sum Sub-Rectangle #
 # Description:
 #     Given a 2-d array of integers, determine the
 #     maximum sub-rectangle sum.
@@ -223,11 +308,28 @@ def max_sum_subarray(arr):
 #             4
 #
 def max_sum_subrectangle(grid):
+    max_sum = grid[0][0]
+    for col_length in range(1, len(grid) + 1):
+        for col_start in range(len(grid) - col_length + 1):
+            for row_length in range(1, len(grid[0]) + 1):
+                for row_start in range(len(grid) - row_length + 1):
 
+                    current_sum = 0
 
-    pass
+                    for row in grid[col_start:col_start + col_length]:
+                        for e in row[row_start:row_start + row_length]:
+                            current_sum += e
 
+                    #print(current_sum, col_start, row_start, col_length, row_length)
+                    #current runs in roughly n^6, but how to optimize it to
+                    #n^3???
 
+                    if current_sum > max_sum:
+                        max_sum = current_sum
+
+    return max_sum
+
+#print(max_sum_subrectangle([[1,2],[3,4]]))
 
 # Maximum Number of Times an Array can be Flattened
 #
@@ -249,6 +351,21 @@ def max_sum_subrectangle(grid):
 #             arr = [1, 2, 3, 4, 5]
 #         Output:
 #             0
+
 #
 def max_array_flatten(arr):
-    pass
+    max_arr = 0
+    for a in arr:
+        print("hello")
+        if type(a) == list:
+            flatten_length = max_array_flatten(a) + 1
+            if flatten_length > max_arr:
+                max_arr = flatten_length
+
+    return max_arr
+
+
+
+arr = [1,[1,0]]
+
+print(max_array_flatten(arr))
