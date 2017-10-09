@@ -9,6 +9,7 @@ from hw3 import *
 # these are the student tests. the autograder tests will be considerably more rigorous
 
 class tester(unittest.TestCase):
+<<<<<<< HEAD
     def test_max_sum_subrectangle(self):
             self.assertEquals(max_sum_subrectangle([[1, 2], [3, 4]]), 10)
             self.assertEquals(max_sum_subrectangle([[1, 2], [-3, 0]]), 3)
@@ -42,6 +43,8 @@ class tester(unittest.TestCase):
             self.assertEquals(max_array_flatten([1, 2, [3, 4], 5]), 1)
             self.assertEquals(max_array_flatten([1, 2, 3, 4, 5]), 0)
             self.assertEquals(max_array_flatten([[1, [2, 3], 4], [5], 6]), 2)
+=======
+>>>>>>> 5c687d979718af154d93aef20a90f95c65e01752
 
 if __name__ == "__main__":
         unittest.main(module=__name__, buffer=True, exit=False)
