@@ -169,8 +169,6 @@ def search_2d_array(arr, target):
 
     if arr[0][0] > target: #the smallest element is bigger than the target
         return None
-
-
     while True: #find row
 
         if arr[mid][0] <= target and target < arr[mid + 1][0]:
@@ -356,7 +354,7 @@ def max_sum_subrectangle(grid):
 def max_array_flatten(arr):
     max_arr = 0
     for a in arr:
-        print("hello")
+        #print("hello")
         if type(a) == list:
             flatten_length = max_array_flatten(a) + 1
             if flatten_length > max_arr:
@@ -366,6 +364,6 @@ def max_array_flatten(arr):
 
 
 
-arr = [1,[1,0]]
+#arr = [1,[1,0]]
 
-print(max_array_flatten(arr))
+#print(max_array_flatten(arr))
